@@ -65,6 +65,19 @@ extension NewsViewController:UITableViewDelegate {
         vc.articleUrl = item[1]
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 130
+ }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = view.backgroundColor
+        return headerView
+    }
+ 
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
 }
 
 extension NewsViewController: XMLParserDelegate {
@@ -93,7 +106,10 @@ extension NewsViewController: XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        newsTableView.reloadData()
+        DispatchQueue.main.async {
+            self.newsTableView.reloadData()
+        }
+       
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
